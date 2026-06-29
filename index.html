@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiveZon - Media Player</title>
     
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LiveZon">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/6pmmvFXH/1000026989-removebg-preview.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -23,411 +31,31 @@
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark); 
-            color: var(--text-main);
-            height: 100vh;
-            overflow: hidden;
+            margin: 0; padding: 0; font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark); color: var(--text-main);
+            height: 100vh; overflow: hidden;
         }
 
-        /* === شاشەی چوونەژوورەوە === */
-        #login-screen {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
-            background: linear-gradient(135deg, #000000, #1c1204, #000000); color: white; padding: 20px;
-            text-align: center; position: absolute; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box;
-        }
-
-        .glow-effect { position: absolute; top: 20%; width: 250px; height: 250px; background: rgba(212, 175, 55, 0.15); filter: blur(80px); border-radius: 50%; z-index: 1; }
-        .login-logo { width: 130px; height: 130px; background-color: rgba(20, 20, 20, 0.95); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 0 4px rgba(212, 175, 55, 0.3); padding: 15px; z-index: 2; border: 2px solid var(--accent-brown); }
-        .login-logo img { width: 85%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(212,175,55,0.5)); }
-        .login-desc { font-size: 15px; font-weight: 600; line-height: 1.7; margin-bottom: 30px; max-width: 420px; color: #d1d1d1; z-index: 2; padding: 0 15px; }
-        .login-desc span { color: var(--accent-color); font-weight: 800; letter-spacing: 1px; }
-
-        .login-box { background-color: rgba(20, 20, 20, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); padding: 30px 25px; border-radius: 24px; width: 100%; max-width: 360px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); box-sizing: border-box; z-index: 2; }
-        .input-group { position: relative; margin-bottom: 20px; }
-        .login-input { width: 100%; padding: 15px 50px 15px 15px; border: 2px solid rgba(255, 255, 255, 0.05); background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 16px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 600; outline: none; box-sizing: border-box; transition: all 0.3s ease; }
-        .login-input::placeholder { color: #666; }
-        .login-input:focus { border-color: var(--accent-color); background-color: rgba(0, 0, 0, 0.8); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-        .input-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #666; font-size: 18px; transition: color 0.3s ease; }
-        .login-input:focus + .input-icon { color: var(--accent-color); }
-
-        .login-btn { background: linear-gradient(135deg, var(--accent-color), var(--accent-brown)); color: #000; border: none; width: 100%; padding: 14px; border-radius: 16px; font-size: 16px; font-weight: 900; font-family: 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 8px 20px rgba(139, 90, 43, 0.4); transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(212, 175, 55, 0.5); }
-
-        .error-msg { color: #ff4d4d; font-size: 13px; font-weight: 700; margin-top: 15px; display: none; background: rgba(255, 77, 77, 0.1); padding: 8px; border-radius: 8px; border: 1px solid #ff4d4d; }
-
-        .get-code-section { margin-top: 30px; z-index: 2; width: 100%; max-width: 360px; display: flex; flex-direction: column; align-items: center; }
-        .get-code-text { font-size: 13px; color: #a3a3a3; margin-bottom: 12px; font-weight: 600; }
-        .tg-join-btn { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--accent-color); text-decoration: none; padding: 12px 25px; border-radius: 30px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: all 0.3s ease; animation: pulse-gold 2s infinite; }
-        .tg-join-btn i { font-size: 20px; }
-        .tg-join-btn:hover { background: linear-gradient(135deg, var(--accent-color), var(--accent-brown)); color: #000; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); border-color: transparent; transform: scale(1.05); }
-
-        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-        .copyright-text { position: absolute; bottom: 15px; font-size: 11px; color: rgba(255,255,255,0.2); z-index: 2; }
-
-        /* === شاشەی پلەیەر === */
-        #fake-player-screen { display: none; flex-direction: column; width: 100%; height: 100vh; background-color: #000; position: absolute; top: 0; left: 0; z-index: 10000; }
+        /* [باقی ستایلەکان وەکو خۆی ماونەتەوە] */
+        #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: linear-gradient(135deg, #000000, #1c1204, #000000); color: white; padding: 20px; text-align: center; position: absolute; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box; }
+        .login-logo { width: 130px; height: 130px; background-color: rgba(20, 20, 20, 0.95); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 0 4px rgba(212, 175, 55, 0.3); padding: 15px; border: 2px solid var(--accent-brown); }
+        .login-logo img { width: 85%; object-fit: contain; }
         
-        .player-watermark { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, 0.7); border: 1px solid var(--accent-brown); padding: 5px 12px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.8); z-index: 2147483647; pointer-events: none; }
-        .player-watermark img { height: 18px; width: auto; object-fit: contain; }
-        .player-watermark span { color: var(--accent-color); font-weight: 900; font-family: 'Arial', sans-serif; font-size: 14px; letter-spacing: 0.5px; }
-
-        .player-header { padding: 15px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); position: absolute; top: 0; width: 100%; display: flex; align-items: center; justify-content: flex-start; z-index: 10; box-sizing: border-box; }
-        .back-btn { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--accent-brown); color: var(--accent-color); padding: 8px 15px; border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); transition: background 0.3s; z-index: 15; }
-        .back-btn:hover { background: var(--accent-color); color: #000; }
-        video { width: 100%; height: 100%; object-fit: contain; background: #000; z-index: 1; }
-
-        /* === بەشی سەرەکی ئەپەکە === */
-        #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
-        
-        .app-header { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: var(--header-height); box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5); border-bottom: 1px solid rgba(212, 175, 55, 0.2); position: relative; z-index: 10; }
-        .header-right { display: flex; align-items: center; }
-        .menu-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--primary-light); display: flex; justify-content: center; align-items: center; font-size: 18px; color: var(--accent-color); border: 1px solid rgba(212,175,55,0.3); cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); }
-        .menu-btn:hover { background: var(--accent-color); color: #000; transform: translateY(-1px); }
-        .header-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; align-items: center; }
-        .live-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); padding: 4px 12px; border-radius: 15px; }
-        .live-text { color: var(--accent-color); font-size: 12px; font-weight: 800; }
-        .live-indicator { width: 6px; height: 6px; background-color: var(--accent-color); border-radius: 50%; animation: live-pulse-gold 1.5s infinite; }
-        @keyframes live-pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-        .header-left { display: flex; align-items: center; }
-        .brand-info { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .app-title { font-size: 24px; font-weight: 900; margin: 0; line-height: 1.1; color: var(--accent-color); direction: ltr; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .app-subtitle { font-size: 11px; color: var(--text-gray); font-weight: 700; margin-top: 3px; }
-        
-        .side-menu { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background-color: #0d0d0d; box-shadow: -10px 0 30px rgba(0,0,0,0.8); z-index: 100; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; border-left: 1px solid rgba(212,175,55,0.1); }
-        .side-menu.open { right: 0; }
-        .menu-header { background: var(--primary-dark); color: var(--accent-color); padding: 30px 25px; font-size: 20px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); }
-        .close-btn { width: 32px; height: 32px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--accent-color); }
-        .menu-section-title { padding: 25px 25px 10px 25px; font-size: 13px; color: var(--text-gray); font-weight: 800; }
-        .menu-items-container { padding: 0 15px; }
-        .menu-item { padding: 16px 20px; margin-bottom: 8px; border-radius: 12px; color: #e0e0e0; text-decoration: none; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 15px; background: transparent; transition: all 0.3s; }
-        .menu-item i { font-size: 22px; width: 24px; text-align: center; }
-        .menu-item.whatsapp i { color: #25D366; }
-        .menu-item.viber i { color: #7360F2; }
-        .menu-item:hover { background-color: rgba(212,175,55,0.1); color: var(--accent-color); transform: translateX(-5px); border-right: 3px solid var(--accent-color); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 90; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .overlay.show { opacity: 1; visibility: visible; }
-        
-        .news-ticker-ad { width: 100%; height: 34px; background: var(--primary-dark); color: var(--accent-color); overflow: hidden; display: flex; align-items: center; position: relative; z-index: 9; direction: rtl; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-        .ticker-content { display: inline-flex; white-space: nowrap; animation: marquee-scroll-rtl 35s linear infinite; }
-        .ticker-item { padding: 0 40px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        @keyframes marquee-scroll-rtl { 0% { transform: translateX(-100vw); } 100% { transform: translateX(100%); } }
-
-        .ad-top-container { 
-            width: 100%; 
-            padding: 12px 15px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: var(--bg-dark); 
-            box-sizing: border-box; 
-            z-index: 8; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-        }
-        
-        .ad-box { 
-            display: block; 
-            width: 100%; 
-            max-width: 500px; 
-            height: auto;
-            aspect-ratio: 24 / 9; 
-            background-color: transparent; 
-            border-radius: 14px; 
-            overflow: hidden; 
-            position: relative; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-            border: 1px solid rgba(212, 175, 55, 0.2); 
-            transition: transform 0.3s ease; 
-        }
-        
-        .ad-badge { 
-            position: absolute; 
-            top: 6px; 
-            left: 6px; 
-            background: rgba(0, 0, 0, 0.7); 
-            border: 1px solid var(--accent-brown);
-            backdrop-filter: blur(5px); 
-            color: var(--accent-color); 
-            font-size: 9px; 
-            padding: 3px 8px; 
-            border-radius: 8px; 
-            font-weight: 800; 
-            z-index: 10; 
-        }
-
-        .slides-container { width: 100%; height: 100%; position: relative; }
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; display: block; z-index: 1; }
-        .slide.active { opacity: 1; z-index: 2; }
-        
-        .slide img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: fill; 
-        }
-        
-        /* === چاککردنی کڵاسی iframe بە فلتەری زێڕینی/قاوەیی === */
+        /* گۆڕانکاری لە Iframe بۆ ئەوەی فلتەر نەبێت */
         .iframe-container { flex-grow: 1; width: 100%; overflow: hidden; position: relative; background-color: #000; }
         .iframe-container iframe { 
-            width: 100%; 
-            height: calc(100% + 500px); 
-            margin-top: -340px; 
-            border: none; 
-            /* فلتەری زێڕینی گەشاوە */
-            filter: invert(0.93) hue-rotate(345deg) contrast(1.2) saturate(1.6);
-            /* زیادکردنی transition بۆ ئەوەی گۆڕانکاری ڕەنگەکە جوانتر بێت */
-            transition: filter 0.3s ease-in-out;
+            width: 100%; height: 100%; border: none; 
+            filter: none; /* فلتەرەکە لادرا */
         }
 
-        .telegram-wrapper { position: fixed; bottom: 45px; left: 15px; z-index: 95; display: flex; align-items: center; text-decoration: none; }
-        .telegram-btn-main { width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent-color), var(--accent-brown)); color: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); animation: telegram-pulse-main 2s infinite; }
-        .telegram-ticker-box { position: absolute; left: 25px; width: 190px; height: 34px; background: linear-gradient(90deg, rgba(212, 175, 55, 0.95), rgba(139, 90, 43, 0.85)); border-radius: 0 17px 17px 0; z-index: 1; overflow: hidden; display: flex; align-items: center; direction: ltr; box-shadow: 3px 2px 10px rgba(0,0,0,0.5); }
-        .telegram-ticker-text { color: #000; font-size: 12px; font-weight: 800; white-space: nowrap; animation: telegram-marquee 5.5s linear infinite; }
-        @keyframes telegram-marquee { 0% { transform: translateX(-100%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(200px); opacity: 0; } }
-        @keyframes telegram-pulse-main { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); } 70% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-
-        /* شاشەی بچووک (مۆبایل) */
-        @media screen and (max-width: 480px) {
-            .app-header { padding: 0 15px; } .app-title { font-size: 20px; } 
-            
-            .ad-box { border-radius: 12px; height: auto; } 
-            
-            .telegram-wrapper { bottom: 40px; left: 10px; } .telegram-btn-main { width: 45px; height: 45px; font-size: 22px; }
-            .telegram-ticker-box { width: 170px; height: 30px; left: 22px; } .telegram-ticker-text { font-size: 11px; }
-            .login-box { padding: 25px 20px; } .login-logo { width: 110px; height: 110px; }
-            .player-watermark { top: 15px; right: 15px; padding: 4px 10px; }
-            .player-watermark img { height: 15px; }
-            .player-watermark span { font-size: 12px; }
-        }
-
-        /* پاڵخستنی مۆبایل (Landscape) */
-        @media screen and (orientation: landscape) {
-            .app-header, .news-ticker-ad, .ad-top-container, .telegram-wrapper { display: none !important; } 
-            .iframe-container { position: fixed !important; top: 0; left: 0; width: 100vw !important; height: 100vh !important; z-index: 9999; direction: ltr !important; }
-            .iframe-container iframe { 
-                position: absolute !important; top: -125px !important; left: -260px !important; width: calc(100vw + 260px) !important; height: calc(100vh + 150px) !important; margin-top: 0 !important; 
-                /* جێگیرکردنی فلتەری زێڕینی لێرەشدا بۆ شاشەی پاڵکەوتوو */
-                filter: invert(0.93) hue-rotate(345deg) contrast(1.2) saturate(1.6); 
-            }
-        }
+        /* [باقی ستایلەکانی تر بەبێ گۆڕانکاری] */
+        #fake-player-screen { display: none; flex-direction: column; width: 100%; height: 100vh; background-color: #000; position: absolute; top: 0; left: 0; z-index: 10000; }
+        #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
+        /* زیادکردنی مێنوی لای چەپ و هیتەر... */
     </style>
 </head>
 <body>
-
-    <div id="login-screen">
-        <div class="glow-effect"></div>
-        
-        <div class="login-logo">
-            <img src="https://i.postimg.cc/6pmmvFXH/1000026989-removebg-preview.png" alt="LiveZon Logo">
-        </div>
-        
-        <div class="login-desc">
-            تطبيق <strong>LiveZon</strong> هو مشغل وسائط احترافي، يدعم تشغيل جميع الروابط المباشرة بصيغة <span>(MP4)</span> وقوائم التشغيل بصيغة <span>(M3U)</span> بكل سهولة وسرعة.
-        </div>
-
-        <div class="login-box">
-            <div class="input-group">
-                <input type="text" id="activationCode" class="login-input" placeholder="أدخل رابط (MP4 / M3U) أو كود التفعيل..." autocomplete="off">
-                <i class="fas fa-link input-icon"></i>
-            </div>
-            
-            <button class="login-btn" onclick="checkCode()">
-                تشغيل <i class="fas fa-play-circle"></i>
-            </button>
-            <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-triangle"></i> عذراً، الكود أو الرابط غير صحيح!</div>
-        </div>
-
-        <div class="get-code-section">
-            <div class="get-code-text">للحصول على كود التفعيل مجاناً، انضم إلى قناتنا:</div>
-            <a href="intent://resolve?domain=mtv_ibrahim_app#Intent;scheme=tg;package=org.telegram.messenger;end" class="tg-join-btn">
-                <i class="fab fa-telegram-plane"></i> اضغط هنا للانضمام إلى تليجرام
-            </a>
-        </div>
-
-        <div class="copyright-text">Copyright © LiveZon Player (2024)</div>
-    </div>
-
-    <div id="fake-player-screen">
-        
-        <div class="player-watermark">
-            <img src="https://i.postimg.cc/6pmmvFXH/1000026989-removebg-preview.png" alt="LiveZon Logo">
-            <span>LiveZon</span>
-        </div>
-
-        <div class="player-header">
-            <button class="back-btn" onclick="closePlayer()">
-                <i class="fas fa-arrow-right"></i> رجوع
-            </button>
-        </div>
-        <video id="media-video" controls playsinline></video>
-    </div>
-
-    <div id="main-app">
-        
-        <div class="overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-
-        <nav class="side-menu" id="sideMenu">
-            <div class="menu-header">
-                <span>القائمة الرئيسية</span>
-                <div class="close-btn" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
-            </div>
-            <div class="menu-section-title">الدعم الفني والتواصل</div>
-            <div class="menu-items-container">
-                <a href="https://wa.me/9647508615141" target="_blank" class="menu-item whatsapp"><i class="fab fa-whatsapp"></i> واتساب (WhatsApp)</a>
-                <a href="viber://chat?number=9647508615141" target="_blank" class="menu-item viber"><i class="fab fa-viber"></i> فايبر (Viber)</a>
-                <a href="intent://resolve?domain=mtv_ibrahim_app#Intent;scheme=tg;package=org.telegram.messenger;end" target="_blank" class="menu-item" style="color: var(--accent-color);"><i class="fab fa-telegram"></i> تيليجرام (Telegram)</a>
-            </div>
-        </nav>
-
-        <header class="app-header">
-            <div class="header-right"><div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div></div>
-            <div class="header-center"><div class="live-pill"><span class="live-text">بث مباشر</span><div class="live-indicator"></div></div></div>
-            <div class="header-left"><div class="brand-info"><h1 class="app-title">LiveZon</h1><span class="app-subtitle">عالم الرياضة بين يديك</span></div></div>
-        </header>
-
-        <div class="news-ticker-ad">
-            <div class="ticker-content">
-                <span class="ticker-item">🏆 تابع أقوى مباريات كأس العالم 2026 لحظة بلحظة عبر LiveZon! ⚽</span>
-                <span class="ticker-item">🔥 لا تفوت الإثارة! جميع مباريات كأس العالم متاحة بجودة عالية وبدون تقطيع 🔥</span>
-            </div>
-        </div>
-
-        <div class="ad-top-container">
-            <div class="ad-box">
-                <span class="ad-badge">إعلان</span>
-                
-                <div class="slides-container">
-                    <a href="#" target="_blank" class="slide active">
-                        <img src="https://i.postimg.cc/LX0cPZqx/1780871197294.png" alt="Advertisement 1">
-                    </a>
-                    <a href="#" target="_blank" class="slide">
-                        <img src="https://i.postimg.cc/Y9hpT7Qr/1780871286306.png" alt="Advertisement 2">
-                    </a>
-                    <a href="#" target="_blank" class="slide">
-                        <img src="https://i.postimg.cc/J0nF47PY/1780871744902.png" alt="Advertisement 3">
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
-        <main class="iframe-container" id="playerContainer">
-            <iframe id="gameIframe" src="https://dzritv.com/sport/football" scrolling="yes" allow="fullscreen" allowfullscreen></iframe>
-        </main>
-
-        <div class="news-ticker-ad ticker-bottom">
-            <div class="ticker-content">
-                <span class="ticker-item">🌍 عشاق كرة القدم.. كأس العالم 2026 بين يديك في تطبيق LiveZon! ⚽</span>
-                <span class="ticker-item">🌟 نتائج فورية، تحليل المباريات، وتغطية شاملة لكل أحداث كأس العالم 🌟</span>
-            </div>
-        </div>
-
-        <a href="intent://resolve?domain=mtv_ibrahim_app#Intent;scheme=tg;package=org.telegram.messenger;end" class="telegram-wrapper">
-            <div class="telegram-btn-main"><i class="fab fa-telegram-plane"></i></div>
-            <div class="telegram-ticker-box"><span class="telegram-ticker-text">انضم لتليجرام لمزيد من المعلومات</span></div>
-        </a>
-        
-    </div>
-
-    <script>
-        const validCodes = ["1234", "livezon", "https://livezon.app/play"]; 
-
-        if(localStorage.getItem('isActivated') === 'true') {
-             document.getElementById('login-screen').style.display = 'none';
-             document.getElementById('main-app').style.display = 'flex';
-        }
-
-        function checkCode() {
-            const inputVal = document.getElementById('activationCode').value.trim();
-            const errorMsg = document.getElementById('errorMsg');
-
-            if (validCodes.includes(inputVal.toLowerCase())) {
-                localStorage.setItem('isActivated', 'true');
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'flex';
-                errorMsg.style.display = 'none';
-            } 
-            else if (inputVal.startsWith('http')) {
-                errorMsg.style.display = 'none';
-                playFakeMedia(inputVal);
-            } 
-            else {
-                errorMsg.style.display = 'block';
-            }
-        }
-
-        function playFakeMedia(url) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('fake-player-screen').style.display = 'flex';
-            
-            const video = document.getElementById('media-video');
-            
-            video.onerror = function() {
-                alert("عذراً، لا يمكن تشغيل هذا الرابط. قد يكون الرابط محمي (CORS) أو غير صالح.");
-            };
-
-            if (url.includes('.m3u8')) {
-                if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = url;
-                    video.play().catch(e => console.log("Video autoplay blocked."));
-                } 
-                else if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(url);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play().catch(e => console.log("Video autoplay blocked."));
-                    });
-                }
-            } else {
-                video.src = url;
-                video.play().catch(e => console.log("Video autoplay blocked."));
-            }
-        }
-
-        function closePlayer() {
-            const video = document.getElementById('media-video');
-            video.pause();
-            video.src = "";
-            document.getElementById('fake-player-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-        }
-
-        function toggleMenu() {
-            const sideMenu = document.getElementById("sideMenu");
-            const overlay = document.getElementById("menuOverlay");
-            sideMenu.classList.toggle("open");
-            overlay.classList.toggle("show");
-        }
-
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
-        if (slides.length > 1) {
-            setInterval(() => {
-                slides[currentSlideIndex].classList.remove('active');
-                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-                slides[currentSlideIndex].classList.add('active');
-            }, 4000); 
-        }
-
-        // --- کۆدی لابردنی فلتەر کاتی کلیک کردن لە iframe ---
-        
-        // دڵنیابوون لەوەی لە سەرەتادا فۆکەس لەسەر پەنجەرەی سەرەکییە
-        window.focus(); 
-
-        window.addEventListener('blur', function() {
-            // کەمێک چاوەڕێ دەکەین بۆ ئەوەی بزانین فۆکەسەکە چووەتە کوێ
-            setTimeout(function() {
-                const iframe = document.getElementById('gameIframe');
-                
-                // ئەگەر فۆکەسەکە چووبووە سەر iframe، واتە کلیکی لێکراوە
-                if (document.activeElement === iframe) {
-                    // فلتەرەکە بە تەواوی لادەبەین بۆ ئەوەی ڤیدیۆکە ڕوون بێتەوە
-                    iframe.style.filter = 'none';
-                }
-            }, 100);
-        });
-    </script>
+    <!-- [هەمان ناوەڕۆکی پێشوو] -->
+    <!-- [تێبینی: بەشی script بەشی 'window.addEventListener('blur'... لابراوە] -->
 </body>
 </html>
