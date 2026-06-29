@@ -2,7 +2,7 @@
   "name": "LiveZon Player",
   "short_name": "LiveZon",
   "description": "مشغل وسائط احترافي",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#080808",
   "theme_color": "#000000",
