@@ -1,0 +1,15 @@
+{
+  "name": "LiveZon Player",
+  "short_name": "LiveZon",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#D4AF37",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/6pmmvFXH/1000026989-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
